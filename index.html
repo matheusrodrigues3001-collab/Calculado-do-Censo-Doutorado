@@ -794,7 +794,7 @@ function calcular() {
   const percEsp = ((esp / total) * 100).toFixed(2);
   const percMes = ((mes / total) * 100).toFixed(2);
   const percDou = ((dou / total) * 100).toFixed(2);
-  const percDecimal = percDou / 100;
+  const somaDou = (Number(percDou)).toFixed(2);
  
   const classificacaoCurso = classificacoes[curso] || classificacoes["default"];
   const percDecimal = somaMesDou / 100;
