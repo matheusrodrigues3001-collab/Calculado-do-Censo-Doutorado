@@ -842,15 +842,19 @@ if (classificacaoCurso) {
 }
 
 
+// Determina a nota inteira que deve acender (arredonda para cima)
+const notaFinal = Math.ceil(nota);
+
 // Cores padrão (apagadas)
 let cores = ["#444", "#444", "#444", "#444", "#444"];
 
-// Acende a luz correspondente à faixa da nota (mesmo fracionada)
-if (nota >= 1 && nota < 2) cores[0] = "#FF0000"; // vermelho
-else if (nota >= 2 && nota < 3) cores[1] = "#FFC000"; // amarelo
-else if (nota >= 3 && nota < 4) cores[2] = "#92D050"; // verde limão
-else if (nota >= 4 && nota < 5) cores[3] = "#3C7D22"; // verde oliva
-else if (nota >= 5) cores[4] = "#00B0F0"; // azul
+// Cores das notas
+const coresNotas = ["#FF0000", "#FFC000", "#92D050", "#3C7D22", "#00B0F0"];
+
+// Aplica a cor apenas à luz que deve acender
+if (notaFinal >= 1 && notaFinal <= 5) {
+    cores[notaFinal - 1] = coresNotas[notaFinal - 1];
+}
 
 document.getElementById('resultado').innerHTML = `
 <h4>Resultados para o curso: ${curso}</h4>
@@ -861,11 +865,11 @@ document.getElementById('resultado').innerHTML = `
 <hr>
 <p><strong>Percentual de Doutores:</strong> ${(percDou * 100).toFixed(2)}%</p>
 <div class="semaforo-container">
-<div class="luz ${nota === 1 ? 'acesa' : ''}" style="background:${cores[0]}; color:${cores[0]}"></div>
-<div class="luz ${nota === 2 ? 'acesa' : ''}" style="background:${cores[1]}; color:${cores[1]}"></div>
-<div class="luz ${nota === 3 ? 'acesa' : ''}" style="background:${cores[2]}; color:${cores[2]}"></div>
-<div class="luz ${nota === 4 ? 'acesa' : ''}" style="background:${cores[3]}; color:${cores[3]}"></div>
-<div class="luz ${nota === 5 ? 'acesa' : ''}" style="background:${cores[4]}; color:${cores[4]}"></div>
+<div class="luz ${notaFinal === 1 ? 'acesa' : ''}" style="background:${cores[0]}; color:${cores[0]}"></div>
+<div class="luz ${notaFinal === 2 ? 'acesa' : ''}" style="background:${cores[1]}; color:${cores[1]}"></div>
+<div class="luz ${notaFinal === 3 ? 'acesa' : ''}" style="background:${cores[2]}; color:${cores[2]}"></div>
+<div class="luz ${notaFinal === 4 ? 'acesa' : ''}" style="background:${cores[3]}; color:${cores[3]}"></div>
+<div class="luz ${notaFinal === 5 ? 'acesa' : ''}" style="background:${cores[4]}; color:${cores[4]}"></div>
 </div>
 `;
 }
