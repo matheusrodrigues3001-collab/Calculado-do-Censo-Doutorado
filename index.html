@@ -70,13 +70,42 @@
             box-shadow: 0 0 20px 5px currentColor, inset 0 0 8px rgba(255,255,255,0.5);
             transform: scale(1.05);
         }
+        
+        /* Estilos para a Legenda */
+        .legenda-container {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #fff;
+        }
+        .legenda-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        .bolinha {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+            flex-shrink: 0; /* Evita que a bolinha diminua */
+        }
+        /* Cores das bolinhas */
+        .bolinha-verde-escura { background-color: #008000; } /* Nota 5 */
+        .bolinha-verde-clara { background-color: #90EE90; } /* Nota 4 */
+        .bolinha-amarela { background-color: #FFFF00; } /* Nota 3 */
+        .bolinha-laranja { background-color: #FFA500; } /* Nota 2 */
+        .bolinha-vermelha { background-color: #FF0000; } /* Notas 0 e 1 */
+
     </style>
 </head>
 <body>
-	    <a href="https://matheusafya.github.io/Pagina-Inicial---Calculadora-Senso-ENADE/" style="text-decoration: none;">
-	        <button style="width: auto; padding: 8px 15px; margin-bottom: 15px; background: #555; border-radius: 6px;">Voltar</button>
-	    </a>
-	    <h2>Indicador - Doutores</h2>
+    <a href="https://matheusafya.github.io/Pagina-Inicial---Calculadora-Senso-ENADE/" style="text-decoration: none;">
+        <button style="width: auto; padding: 8px 15px; margin-bottom: 15px; background: #555; border-radius: 6px;">Voltar</button>
+    </a>
+    <h2>Indicador - Doutores</h2>
     <label for="curso">Selecione o curso:</label>
     <select id="curso">
         <option value="">Selecione...</option>
@@ -98,6 +127,7 @@
         <option>Comunicação Social (Jornalismo)</option>
         <option>Comunicação Social (Publicidade e Propaganda)</option>
         <option>Design (Bacharelado)</option>
+        <option>Design (Licenciatura)</option>
         <option>Educação Física (Bacharelado)</option>
         <option>Educação Física (Licenciatura)</option>
         <option>Enfermagem</option>
@@ -152,9 +182,35 @@
     <label>Quantidade de Mestres:</label>
     <input type="number" id="mestres" placeholder="Digite o número de Mestres">
     <label>Quantidade de Doutores:</label>
-	    <input type="number" id="doutores" placeholder="Digite o número de Doutores">
-	    <button onclick="calcular()">Calcular</button>
-	    <button onclick="limparDados()" style="background: #555; margin-top: 5px;">Limpar Dados</button>
+    <input type="number" id="doutores" placeholder="Digite o número de Doutores">
+    <button onclick="calcular()">Calcular</button>
+    <button onclick="limparDados()" style="background: #555; margin-top: 5px;">Limpar Dados</button>
+    
+    <!-- Estrutura da Legenda -->
+    <div class="legenda-container">
+        <h4>Legenda de Classificação</h4>
+        <div class="legenda-item">
+            <div class="bolinha bolinha-verde-escura"></div>
+            <span>5 - Nota Máxima Possível</span>
+        </div>
+        <div class="legenda-item">
+            <div class="bolinha bolinha-verde-clara"></div>
+            <span>4 - Nota Acima do Satisfatório</span>
+        </div>
+        <div class="legenda-item">
+            <div class="bolinha bolinha-amarela"></div>
+            <span>3 - Satisfatório</span>
+        </div>
+        <div class="legenda-item">
+            <div class="bolinha bolinha-laranja"></div>
+            <span>2 - Insatisfatório</span>
+        </div>
+        <div class="legenda-item">
+            <div class="bolinha bolinha-vermelha"></div>
+            <span>0 e 1 - Crítico</span>
+        </div>
+    </div>
+    
     <div id="resultado"></div>
     <script>
         // Classificações atualizadas com os dados fornecidos pelo usuário
@@ -261,39 +317,47 @@
                 { limite: 0.846, nota: 3 },
                 { limite: 0.739, nota: 2 },
                 { limite: 0.423, nota: 1 },
-                { limite: 0.423, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "CIÊNCIAS SOCIAIS (Licenciatura)": [
-                { limite: 0.92, nota: 5 },
-                { limite: 0.846, nota: 4 },
-                { limite: 0.687, nota: 3 },
-                { limite: 0.535, nota: 2 },
-                { limite: 0.363, nota: 1 },
-                { limite: 0.16, nota: 0 }
-            ],
-            "COMUNICAÇÃO SOCIAL (JORNALISMO)": [
                 { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.032258065, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
-            "COMUNICAÇÃO SOCIAL (PUBLICIDADE E PROPAGANDA)": [
+            "COMUNICAÇÃO SOCIAL (Jornalismo)": [
                 { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.054054054, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
+            ],
+            "COMUNICAÇÃO SOCIAL (Publicidade e Propaganda)": [
+                { limite: 0.9, nota: 5 },
+                { limite: 0.8, nota: 4 },
+                { limite: 0.6, nota: 3 },
+                { limite: 0.4, nota: 2 },
+                { limite: 0.2, nota: 1 },
+                { limite: 0.047619048, nota: 0 }
             ],
             "DESIGN (Bacharelado)": [
-                { limite: 0.909, nota: 5 },
-                { limite: 0.809, nota: 4 },
-                { limite: 0.625, nota: 3 },
-                { limite: 0.428, nota: 2 },
-                { limite: 0.235, nota: 1 },
-                { limite: 0.041, nota: 0 }
+                { limite: 0.9, nota: 5 },
+                { limite: 0.8, nota: 4 },
+                { limite: 0.6, nota: 3 },
+                { limite: 0.4, nota: 2 },
+                { limite: 0.2, nota: 1 },
+                { limite: 0.047619048, nota: 0 }
+            ],
+            "DESIGN (Licenciatura)": [
+                { limite: 0.9, nota: 5 },
+                { limite: 0.8, nota: 4 },
+                { limite: 0.6, nota: 3 },
+                { limite: 0.4, nota: 2 },
+                { limite: 0.2, nota: 1 },
+                { limite: 0.047619048, nota: 0 }
             ],
             "DIREITO": [
                 { limite: 0.9, nota: 5 },
@@ -301,7 +365,7 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.021276596, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "EDUCAÇÃO FÍSICA (Bacharelado)": [
                 { limite: 0.9, nota: 5 },
@@ -309,7 +373,7 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.045, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "EDUCAÇÃO FÍSICA (Licenciatura)": [
                 { limite: 0.9, nota: 5 },
@@ -317,263 +381,143 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.052, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "ENFERMAGEM": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "ENGENHARIA AMBIENTAL": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "ENGENHARIA CIVIL": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "ENGENHARIA DA COMPUTAÇÃO": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "ENGENHARIA DE PRODUÇÃO": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "ENGENHARIA ELÉTRICA": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "ENGENHARIA MECÂNICA": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "ENGENHARIA MECATRÔNICA": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "ENGENHARIA QUÍMICA": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "ESTÉTICA E COSMÉTICA": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "FARMÁCIA": [
-                { limite: 1, nota: 5 },
-                { limite: 0.8, nota: 4 },
-                { limite: 0.6, nota: 3 },
-                { limite: 0.4, nota: 2 },
-                { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
-            ],
-            "FILOSOFIA (Bacharelado)": [
-                { limite: 0.9, nota: 5 },
-                { limite: 0.812, nota: 4 },
-                { limite: 0.6, nota: 3 },
-                { limite: 0.416, nota: 2 },
-                { limite: 0.2, nota: 1 },
-                { limite: 0.125, nota: 0 }
-            ],
-            "FILOSOFIA (Licenciatura)": [
                 { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.111, nota: 0 }
-            ],
-            "FÍSICA (Licenciatura)": [
-                { limite: 0.9, nota: 5 },
-                { limite: 0.8, nota: 4 },
-                { limite: 0.6, nota: 3 },
-                { limite: 0.4, nota: 2 },
-                { limite: 0.222, nota: 1 },
-                { limite: 0.071, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "FISIOTERAPIA": [
-                { limite: 1, nota: 5 },
-                { limite: 0.8, nota: 4 },
-                { limite: 0.6, nota: 3 },
-                { limite: 0.4, nota: 2 },
-                { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
-            ],
-            "FONOAUDIOLOGIA": [
-                { limite: 1, nota: 5 },
-                { limite: 0.8, nota: 4 },
-                { limite: 0.6, nota: 3 },
-                { limite: 0.4, nota: 2 },
-                { limite: 0.2, nota: 1 },
-                { limite: 0.18, nota: 0 }
-            ],
-            "GEOGRAFIA (Bacharelado)": [
-                { limite: 0.938, nota: 5 },
-                { limite: 0.869, nota: 4 },
-                { limite: 0.75, nota: 3 },
-                { limite: 0.615, nota: 2 },
-                { limite: 0.521, nota: 1 },
-                { limite: 0.333, nota: 0 }
-            ],
-            "GEOGRAFIA (Licenciatura)": [
-                { limite: 0.901, nota: 5 },
-                { limite: 0.8, nota: 4 },
-                { limite: 0.6, nota: 3 },
-                { limite: 0.4, nota: 2 },
-                { limite: 0.2, nota: 1 },
-                { limite: 0.055, nota: 0 }
-            ],
-            "GESTÃO AMBIENTAL": [
-                { limite: 1, nota: 5 },
-                { limite: 0.8, nota: 4 },
-                { limite: 0.6, nota: 3 },
-                { limite: 0.4, nota: 2 },
-                { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
-            ],
-            "GESTÃO COMERCIAL": [
                 { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.052631579, nota: 0 }
-            ],
-            "HISTÓRIA (Bacharelado)": [
-                { limite: 0.934, nota: 5 },
-                { limite: 0.863, nota: 4 },
-                { limite: 0.8, nota: 3 },
-                { limite: 0.64, nota: 2 },
-                { limite: 0.5, nota: 1 },
-                { limite: 0.294, nota: 0 }
-            ],
-            "HISTÓRIA (Licenciatura)": [
-                { limite: 0.9, nota: 5 },
-                { limite: 0.8, nota: 4 },
-                { limite: 0.6, nota: 3 },
-                { limite: 0.4, nota: 2 },
-                { limite: 0.2, nota: 1 },
-                { limite: 0.066, nota: 0 }
-            ],
-            "LETRAS - Inglês (Licenciatura)": [
-                { limite: 0.903, nota: 5 },
-                { limite: 0.8, nota: 4 },
-                { limite: 0.6, nota: 3 },
-                { limite: 0.4, nota: 2 },
-                { limite: 0.2, nota: 1 },
-                { limite: 0.052, nota: 0 }
-            ],
-            "LETRAS-PORTUGUÊS (Licenciatura)": [
-                { limite: 0.9, nota: 5 },
-                { limite: 0.8, nota: 4 },
-                { limite: 0.6, nota: 3 },
-                { limite: 0.4, nota: 2 },
-                { limite: 0.2, nota: 1 },
-                { limite: 0.058, nota: 0 }
-            ],
-            "LETRAS-PORTUGUÊS E ESPANHOL (Licenciatura)": [
-                { limite: 0.909, nota: 5 },
-                { limite: 0.8, nota: 4 },
-                { limite: 0.625, nota: 3 },
-                { limite: 0.4, nota: 2 },
-                { limite: 0.21, nota: 1 },
-                { limite: 0.09, nota: 0 }
-            ],
-            "LETRAS-PORTUGUÊS E INGLÊS (Licenciatura)": [
-                { limite: 0.901, nota: 5 },
-                { limite: 0.8, nota: 4 },
-                { limite: 0.6, nota: 3 },
-                { limite: 0.4, nota: 2 },
-                { limite: 0.2, nota: 1 },
-                { limite: 0.09, nota: 0 }
-            ],
-            "MATEMÁTICA (Licenciatura)": [
-                { limite: 0.9, nota: 5 },
-                { limite: 0.8, nota: 4 },
-                { limite: 0.6, nota: 3 },
-                { limite: 0.4, nota: 2 },
-                { limite: 0.2, nota: 1 },
-                { limite: 0.045, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "MEDICINA": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "MEDICINA VETERINÁRIA": [
-                { limite: 0.84, nota: 5 },
-                { limite: 0.7, nota: 4 },
-                { limite: 0.5, nota: 3 },
-                { limite: 0.3, nota: 2 },
+                { limite: 0.9, nota: 5 },
+                { limite: 0.8, nota: 4 },
+                { limite: 0.6, nota: 3 },
+                { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.29, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "MÚSICA (Licenciatura)": [
-                { limite: 0.906, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.055, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "NUTRIÇÃO": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "ODONTOLOGIA": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "PEDAGOGIA (Licenciatura)": [
                 { limite: 0.9, nota: 5 },
@@ -581,23 +525,23 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.037, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "PSICOLOGIA": [
-                { limite: 0.9744, nota: 5 },
-                { limite: 0.9069, nota: 4 },
-                { limite: 0.8, nota: 3 },
-                { limite: 0.6, nota: 2 },
-                { limite: 0.4, nota: 1 },
-                { limite: 0.041666667, nota: 0 }
+                { limite: 0.9, nota: 5 },
+                { limite: 0.8, nota: 4 },
+                { limite: 0.6, nota: 3 },
+                { limite: 0.4, nota: 2 },
+                { limite: 0.2, nota: 1 },
+                { limite: 0.047619048, nota: 0 }
             ],
             "QUÍMICA (Bacharelado)": [
-                { limite: 0.939, nota: 5 },
-                { limite: 0.857, nota: 4 },
-                { limite: 0.71, nota: 3 },
-                { limite: 0.571, nota: 2 },
-                { limite: 0.428, nota: 1 },
-                { limite: 0.272, nota: 0 }
+                { limite: 0.9, nota: 5 },
+                { limite: 0.8, nota: 4 },
+                { limite: 0.6, nota: 3 },
+                { limite: 0.4, nota: 2 },
+                { limite: 0.2, nota: 1 },
+                { limite: 0.047619048, nota: 0 }
             ],
             "QUÍMICA (Licenciatura)": [
                 { limite: 0.9, nota: 5 },
@@ -605,23 +549,23 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.037037037, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "RELAÇÕES INTERNACIONAIS": [
-                { limite: 0.916666667, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
-                { limite: 0.606060606, nota: 3 },
+                { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
-                { limite: 0.227272727, nota: 1 },
-                { limite: 0.037037037, nota: 0 }
+                { limite: 0.2, nota: 1 },
+                { limite: 0.047619048, nota: 0 }
             ],
             "SECRETARIADO EXECUTIVO": [
                 { limite: 0.9, nota: 5 },
-                { limite: 0.807692308, nota: 4 },
-                { limite: 0.611111111, nota: 3 },
-                { limite: 0.416666667, nota: 2 },
-                { limite: 0.222222222, nota: 1 },
-                { limite: 0.125, nota: 0 }
+                { limite: 0.8, nota: 4 },
+                { limite: 0.6, nota: 3 },
+                { limite: 0.4, nota: 2 },
+                { limite: 0.2, nota: 1 },
+                { limite: 0.047619048, nota: 0 }
             ],
             "SERVIÇO SOCIAL": [
                 { limite: 0.9, nota: 5 },
@@ -629,7 +573,7 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.055555556, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "SISTEMAS DE INFORMAÇÃO": [
                 { limite: 0.9, nota: 5 },
@@ -637,15 +581,15 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.062, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "TECNOLOGIA EM AGRONEGÓCIOS": [
-                { limite: 0.98, nota: 5 },
-                { limite: 0.78, nota: 4 },
+                { limite: 0.9, nota: 5 },
+                { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
-                { limite: 0.41, nota: 2 },
-                { limite: 0.23, nota: 1 },
-                { limite: 0.063, nota: 0 }
+                { limite: 0.4, nota: 2 },
+                { limite: 0.2, nota: 1 },
+                { limite: 0.047619048, nota: 0 }
             ],
             "TECNOLOGIA EM ANÁLISE E DESENVOLVIMENTO DE SISTEMAS": [
                 { limite: 0.9, nota: 5 },
@@ -653,10 +597,10 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.03, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "TECNOLOGIA EM COMÉRCIO EXTERIOR": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
@@ -669,7 +613,7 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.066666667, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "TECNOLOGIA EM DESIGN DE MODA": [
                 { limite: 0.9, nota: 5 },
@@ -677,15 +621,15 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.052631579, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "TECNOLOGIA EM DESIGN GRÁFICO": [
-                { limite: 0.925714286, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.125, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "TECNOLOGIA EM GASTRONOMIA": [
                 { limite: 0.9, nota: 5 },
@@ -693,23 +637,23 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.058823529, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "TECNOLOGIA EM GESTÃO DA QUALIDADE": [
-                { limite: 0.95, nota: 5 },
-                { limite: 0.8, nota: 4 },
-                { limite: 0.615384615, nota: 3 },
-                { limite: 0.4, nota: 2 },
-                { limite: 0.2, nota: 1 },
-                { limite: 0.111111111, nota: 0 }
-            ],
-            "TECNOLOGIA EM GESTÃO DA TECNOLOGIA DA INFORMAÇÃO": [
-                { limite: 0.909, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.05, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
+            ],
+            "TECNOLOGIA EM GESTÃO DA TECNOLOGIA DA INFORMAÇÃO": [
+                { limite: 0.9, nota: 5 },
+                { limite: 0.8, nota: 4 },
+                { limite: 0.6, nota: 3 },
+                { limite: 0.4, nota: 2 },
+                { limite: 0.2, nota: 1 },
+                { limite: 0.047619048, nota: 0 }
             ],
             "TECNOLOGIA EM GESTÃO DE RECURSOS HUMANOS": [
                 { limite: 0.9, nota: 5 },
@@ -717,10 +661,10 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.045454545, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "TECNOLOGIA EM GESTÃO FINANCEIRA": [
-                { limite: 0.909090909, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
@@ -741,39 +685,39 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.052631579, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "TECNOLOGIA EM MARKETING": [
-                { limite: 0.916666667, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.0625, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "TECNOLOGIA EM PROCESSOS GERENCIAIS": [
-                { limite: 0.903225806, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.058823529, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "TECNOLOGIA EM RADIOLOGIA": [
-                { limite: 1, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.19, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "TECNOLOGIA EM REDES DE COMPUTADORES": [
-                { limite: 0.909, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.045, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "TEOLOGIA": [
                 { limite: 0.9, nota: 5 },
@@ -781,177 +725,189 @@
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
                 { limite: 0.2, nota: 1 },
-                { limite: 0.066666667, nota: 0 }
+                { limite: 0.047619048, nota: 0 }
             ],
             "TURISMO": [
-                { limite: 0.902439024, nota: 5 },
+                { limite: 0.9, nota: 5 },
                 { limite: 0.8, nota: 4 },
                 { limite: 0.6, nota: 3 },
                 { limite: 0.4, nota: 2 },
-                { limite: 0.222222222, nota: 1 },
-                { limite: 0.153846154, nota: 0 }
+                { limite: 0.2, nota: 1 },
+                { limite: 0.047619048, nota: 0 }
             ],
             "ZOOTECNIA": [
-                { limite: 1, nota: 5 },
-                { limite: 0.85, nota: 4 },
-                { limite: 0.72, nota: 3 },
-                { limite: 0.6, nota: 2 },
-                { limite: 0.45, nota: 1 },
-                { limite: 0.44, nota: 0 }
+                { limite: 0.9, nota: 5 },
+                { limite: 0.8, nota: 4 },
+                { limite: 0.6, nota: 3 },
+                { limite: 0.4, nota: 2 },
+                { limite: 0.2, nota: 1 },
+                { limite: 0.047619048, nota: 0 }
             ]
         };
 
         function calcular() {
-            // 1. Obter os valores de entrada
+            const cursoSelect = document.getElementById('curso');
+            const curso = cursoSelect.options[cursoSelect.selectedIndex].text.toUpperCase();
             const especialistas = parseFloat(document.getElementById('especialistas').value) || 0;
             const mestres = parseFloat(document.getElementById('mestres').value) || 0;
             const doutores = parseFloat(document.getElementById('doutores').value) || 0;
-            const curso = document.getElementById('curso').value.toUpperCase();
             const resultadoDiv = document.getElementById('resultado');
-            const semaforoContainer = document.querySelector('.semaforo-container');
 
-            // Limpar resultados anteriores
-            resultadoDiv.innerHTML = '';
-            if (semaforoContainer) {
-                semaforoContainer.remove();
-            }
-
-            // 2. Validação básica
-            if (!curso) {
-                resultadoDiv.innerHTML = '<p style="color: red;">Por favor, selecione um curso.</p>';
+            if (!curso || (especialistas + mestres + doutores) === 0) {
+                resultadoDiv.innerHTML = '<p style="color: red;">Por favor, selecione um curso e insira a quantidade de especialistas, mestres e doutores.</p>';
+                apagarSemaforo();
                 return;
             }
 
             const total = especialistas + mestres + doutores;
+            const proporcaoDoutores = doutores / total;
 
-            if (total === 0) {
-                resultadoDiv.innerHTML = '<p style="color: red;">Por favor, insira a quantidade de docentes.</p>';
+            const classificacaoCurso = classificacoes[curso];
+
+            if (!classificacaoCurso) {
+                resultadoDiv.innerHTML = `<p style="color: red;">Classificação não encontrada para o curso: ${curso}</p>`;
+                apagarSemaforo();
                 return;
             }
 
-            // 3. Cálculo do Percentual
-            // O percentual é a quantidade de Doutores em relação ao Total (Especialistas + Mestres + Doutores)
-            const percentual = doutores / total;
+            let notaFinal = 0;
+            let corSemaforo = '';
 
-            // 4. Formatação do resultado
-            const percentualFormatado = (percentual * 100).toFixed(2) + '%';
-
-            // 5. Determinar a Nota (Classificação)
-            let nota = 0;
-            const classificacaoCurso = classificacoes[curso];
-
-            if (classificacaoCurso) {
-                nota = obterNotaInterpolada(percentual, classificacaoCurso);
-            } else {
-                resultadoDiv.innerHTML = `<p style="color: orange;">Classificações não encontradas para o curso de ${curso}.</p>`;
-                // Continua para mostrar o percentual calculado
+            for (const item of classificacaoCurso) {
+                if (proporcaoDoutores >= item.limite) {
+                    notaFinal = item.nota;
+                    break;
+                }
             }
 
-            // 6. Exibir o resultado
-            let htmlResultado = `
-                <h3>Resultado do Cálculo</h3>
-                <p><strong>Total de Docentes:</strong> ${total}</p>
-                <p><strong>Quantidade de Doutores:</strong> ${doutores}</p>
-                <p><strong>Percentual de Doutores:</strong> ${percentualFormatado}</p>
-	                <p><strong>Nota (Classificação):</strong> <span style="font-size: 1.5em; font-weight: bold; color: ${nota >= 3 ? 'green' : nota >= 1 ? 'orange' : 'red'};">${nota.toFixed(2)}</span></p>
+            // Determinar a cor do semáforo com base na nota
+            switch (notaFinal) {
+                case 5:
+                    corSemaforo = 'verde-escura';
+                    break;
+                case 4:
+                    corSemaforo = 'verde-clara';
+                    break;
+                case 3:
+                    corSemaforo = 'amarela';
+                    break;
+                case 2:
+                    corSemaforo = 'laranja';
+                    break;
+                case 1:
+                case 0:
+                    corSemaforo = 'vermelha';
+                    break;
+                default:
+                    corSemaforo = 'cinza'; // Cor padrão para caso não encontre
+            }
+
+            // Atualizar o semáforo
+            atualizarSemaforo(notaFinal);
+
+            // Determinar a descrição da nota para o resultado
+            let descricaoNota = '';
+            switch (notaFinal) {
+                case 5:
+                    descricaoNota = 'Nota Máxima Possível';
+                    break;
+                case 4:
+                    descricaoNota = 'Nota Acima do Satisfatório';
+                    break;
+                case 3:
+                    descricaoNota = 'Satisfatório';
+                    break;
+                case 2:
+                    descricaoNota = 'Insatisfatório';
+                    break;
+                case 1:
+                case 0:
+                    descricaoNota = 'Crítico';
+                    break;
+                default:
+                    descricaoNota = 'Não Classificado';
+            }
+
+            resultadoDiv.innerHTML = `
+                <h4>Resultado para ${curso}</h4>
+                <p>Proporção de Doutores: <strong>${(proporcaoDoutores * 100).toFixed(2)}%</strong></p>
+                <p>Nota Final: <strong>${notaFinal}</strong></p>
+                <p>Classificação: <strong>${descricaoNota}</strong></p>
             `;
+        }
 
-            resultadoDiv.innerHTML = htmlResultado;
+        function atualizarSemaforo(nota) {
+            apagarSemaforo();
+            const luzes = document.querySelectorAll('.luz');
+            
+            // O semáforo tem 5 luzes, mas as notas são 0-5.
+            // Vamos mapear as notas para as luzes acesas.
+            // Nota 5 -> 5ª luz (índice 4)
+            // Nota 4 -> 4ª luz (índice 3)
+            // Nota 3 -> 3ª luz (índice 2)
+            // Nota 2 -> 2ª luz (índice 1)
+            // Nota 1 e 0 -> 1ª luz (índice 0)
+            
+            let indiceLuz = -1;
+            let cor = '';
 
-	            // 7. Criar e exibir o Semáforo
-	            // O semáforo agora acende a luz mais próxima da nota interpolada
-	            const notaArredondada = Math.round(nota);
-	            const semaforoHtml = criarSemaforo(notaArredondada);
-	            resultadoDiv.insertAdjacentHTML('beforeend', semaforoHtml);
-	        }
+            switch (nota) {
+                case 5:
+                    indiceLuz = 4;
+                    cor = '#008000'; // Verde Escura
+                    break;
+                case 4:
+                    indiceLuz = 3;
+                    cor = '#90EE90'; // Verde Clara
+                    break;
+                case 3:
+                    indiceLuz = 2;
+                    cor = '#FFFF00'; // Amarela
+                    break;
+                case 2:
+                    indiceLuz = 1;
+                    cor = '#FFA500'; // Laranja
+                    break;
+                case 1:
+                case 0:
+                    indiceLuz = 0;
+                    cor = '#FF0000'; // Vermelha
+                    break;
+            }
 
-	        function limparDados() {
-	            document.getElementById('curso').value = '';
-	            document.getElementById('especialistas').value = '';
-	            document.getElementById('mestres').value = '';
-	            document.getElementById('doutores').value = '';
-	            document.getElementById('resultado').innerHTML = '';
-	            // Remove o semáforo se existir
-	            const semaforoContainer = document.querySelector('.semaforo-container');
-	            if (semaforoContainer) {
-	                semaforoContainer.remove();
-	            }
-	            // Recria o semáforo vazio
-	            document.getElementById('resultado').insertAdjacentHTML('beforeend', criarSemaforo(-1));
-	        }
+            if (indiceLuz !== -1 && luzes[indiceLuz]) {
+                luzes[indiceLuz].classList.add('acesa');
+                luzes[indiceLuz].style.backgroundColor = cor;
+                luzes[indiceLuz].style.color = cor; // Para o box-shadow
+            }
+        }
 
-	        function criarSemaforo(notaArredondada) {
-	            const cores = {
-	                5: 'green',
-	                4: 'lightgreen',
-	                3: 'yellow',
-	                2: 'orange',
-	                1: 'red',
-	                0: 'darkred'
-	            };
+        function apagarSemaforo() {
+            const luzes = document.querySelectorAll('.luz');
+            luzes.forEach(luz => {
+                luz.classList.remove('acesa');
+                luz.style.backgroundColor = '#444';
+                luz.style.color = '#444';
+            });
+        }
 
-	            let semaforoHtml = '<div class="semaforo-container">';
-	            for (let i = 5; i >= 0; i--) {
-	                const cor = cores[i] || 'gray';
-	                // A luz acesa é a nota inteira mais próxima da nota interpolada
-	                const acesa = notaArredondada === i ? 'acesa' : '';
-	                const corAcesa = notaArredondada === i ? `style="background: ${cor}; color: ${cor};"` : '';
-	                semaforoHtml += `<div class="luz ${acesa}" ${corAcesa}></div>`;
-	            }
-	            semaforoHtml += '</div>';
-	            return semaforoHtml;
-	        }
-
-        // Inicializa o semáforo vazio ao carregar a página
-        document.addEventListener('DOMContentLoaded', () => {
-	            document.getElementById('resultado').insertAdjacentHTML('beforeend', criarSemaforo(-1));
-	        });
-
-	        /**
-	         * Função para realizar a interpolação linear da nota.
-	         * @param {number} percentual - O percentual de doutores calculado.
-	         * @param {Array<Object>} classificacaoCurso - A lista de limites e notas para o curso.
-	         * @returns {number} A nota interpolada.
-	         */
-	        function obterNotaInterpolada(percentual, classificacaoCurso) {
-	            // A lista de classificação deve estar ordenada de forma decrescente pelo limite (do maior para o menor)
-	            // O código original já parece estar ordenado dessa forma (5, 4, 3, 2, 1, 0)
-
-	            // Se o percentual for maior ou igual ao limite superior (nota 5), retorna 5
-	            if (percentual >= classificacaoCurso[0].limite) {
-	                return 5.0;
-	            }
-
-	            // Se o percentual for menor que o limite inferior (nota 0), retorna 0
-	            const limiteInferior = classificacaoCurso[classificacaoCurso.length - 1].limite;
-	            if (percentual < limiteInferior) {
-	                return 0.0;
-	            }
-
-	            // Itera sobre os limites para encontrar o intervalo de interpolação
-	            for (let i = 0; i < classificacaoCurso.length - 1; i++) {
-	                const pontoSuperior = classificacaoCurso[i]; // Ex: { limite: 0.9, nota: 5 }
-	                const pontoInferior = classificacaoCurso[i + 1]; // Ex: { limite: 0.8, nota: 4 }
-
-	                // Verifica se o percentual está entre o limite superior e o limite inferior
-	                if (percentual < pontoSuperior.limite && percentual >= pontoInferior.limite) {
-	                    const x1 = pontoInferior.limite; // Limite inferior do intervalo (ex: 0.8)
-	                    const y1 = pontoInferior.nota;   // Nota inferior do intervalo (ex: 4)
-	                    const x2 = pontoSuperior.limite; // Limite superior do intervalo (ex: 0.9)
-	                    const y2 = pontoSuperior.nota;   // Nota superior do intervalo (ex: 5)
-	                    const x = percentual;            // Valor a ser interpolado (percentual)
-
-	                    // Fórmula da Interpolação Linear: y = y1 + (x - x1) * (y2 - y1) / (x2 - x1)
-	                    const notaInterpolada = y1 + (x - x1) * (y2 - y1) / (x2 - x1);
-
-	                    // Arredonda para duas casas decimais para melhor visualização
-	                    return parseFloat(notaInterpolada.toFixed(2));
-	                }
-	            }
-
-	            // Caso o percentual seja exatamente igual ao limite superior (que já foi tratado, mas como fallback)
-	            return classificacaoCurso[0].nota;
-	        }
-	    </script>
-	</body>
-	</html>
+        function limparDados() {
+            document.getElementById('curso').value = "";
+            document.getElementById('especialistas').value = "";
+            document.getElementById('mestres').value = "";
+            document.getElementById('doutores').value = "";
+            document.getElementById('resultado').innerHTML = "";
+            apagarSemaforo();
+        }
+    </script>
+    
+    <!-- Estrutura do Semáforo -->
+    <div class="semaforo-container">
+        <div class="luz" id="luz-5"></div>
+        <div class="luz" id="luz-4"></div>
+        <div class="luz" id="luz-3"></div>
+        <div class="luz" id="luz-2"></div>
+        <div class="luz" id="luz-1"></div>
+    </div>
+</body>
+</html>
