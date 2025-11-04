@@ -837,12 +837,7 @@
             const classificacaoCurso = classificacoes[curso];
 
             if (classificacaoCurso) {
-                for (const item of classificacaoCurso) {
-                    if (percentual >= item.limite) {
-                        nota = item.nota;
-                        break;
-                    }
-                }
+                nota = obterNotaInterpolada(percentual, classificacaoCurso);
             } else {
                 resultadoDiv.innerHTML = `<p style="color: orange;">Classificações não encontradas para o curso de ${curso}.</p>`;
                 // Continua para mostrar o percentual calculado
@@ -854,41 +849,91 @@
                 <p><strong>Total de Docentes:</strong> ${total}</p>
                 <p><strong>Quantidade de Doutores:</strong> ${doutores}</p>
                 <p><strong>Percentual de Doutores:</strong> ${percentualFormatado}</p>
-                <p><strong>Nota (Classificação):</strong> <span style="font-size: 1.5em; font-weight: bold; color: ${nota >= 3 ? 'green' : nota >= 1 ? 'orange' : 'red'};">${nota}</span></p>
+	                <p><strong>Nota (Classificação):</strong> <span style="font-size: 1.5em; font-weight: bold; color: ${nota >= 3 ? 'green' : nota >= 1 ? 'orange' : 'red'};">${nota.toFixed(2)}</span></p>
             `;
 
             resultadoDiv.innerHTML = htmlResultado;
 
-            // 7. Criar e exibir o Semáforo
-            const semaforoHtml = criarSemaforo(nota);
-            resultadoDiv.insertAdjacentHTML('beforeend', semaforoHtml);
-        }
+	            // 7. Criar e exibir o Semáforo
+	            // O semáforo agora acende a luz mais próxima da nota interpolada
+	            const notaArredondada = Math.round(nota);
+	            const semaforoHtml = criarSemaforo(notaArredondada);
+	            resultadoDiv.insertAdjacentHTML('beforeend', semaforoHtml);
+	        }
 
-        function criarSemaforo(nota) {
-            const cores = {
-                5: 'green',
-                4: 'lightgreen',
-                3: 'yellow',
-                2: 'orange',
-                1: 'red',
-                0: 'darkred'
-            };
+	        function criarSemaforo(notaArredondada) {
+	            const cores = {
+	                5: 'green',
+	                4: 'lightgreen',
+	                3: 'yellow',
+	                2: 'orange',
+	                1: 'red',
+	                0: 'darkred'
+	            };
 
-            let semaforoHtml = '<div class="semaforo-container">';
-            for (let i = 5; i >= 0; i--) {
-                const cor = cores[i] || 'gray';
-                const acesa = nota === i ? 'acesa' : '';
-                const corAcesa = nota === i ? `style="background: ${cor}; color: ${cor};"` : '';
-                semaforoHtml += `<div class="luz ${acesa}" ${corAcesa}></div>`;
-            }
-            semaforoHtml += '</div>';
-            return semaforoHtml;
-        }
+	            let semaforoHtml = '<div class="semaforo-container">';
+	            for (let i = 5; i >= 0; i--) {
+	                const cor = cores[i] || 'gray';
+	                // A luz acesa é a nota inteira mais próxima da nota interpolada
+	                const acesa = notaArredondada === i ? 'acesa' : '';
+	                const corAcesa = notaArredondada === i ? `style="background: ${cor}; color: ${cor};"` : '';
+	                semaforoHtml += `<div class="luz ${acesa}" ${corAcesa}></div>`;
+	            }
+	            semaforoHtml += '</div>';
+	            return semaforoHtml;
+	        }
 
         // Inicializa o semáforo vazio ao carregar a página
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('resultado').insertAdjacentHTML('beforeend', criarSemaforo(-1));
-        });
-    </script>
-</body>
-</html>
+	            document.getElementById('resultado').insertAdjacentHTML('beforeend', criarSemaforo(-1));
+	        });
+
+	        /**
+	         * Função para realizar a interpolação linear da nota.
+	         * @param {number} percentual - O percentual de doutores calculado.
+	         * @param {Array<Object>} classificacaoCurso - A lista de limites e notas para o curso.
+	         * @returns {number} A nota interpolada.
+	         */
+	        function obterNotaInterpolada(percentual, classificacaoCurso) {
+	            // A lista de classificação deve estar ordenada de forma decrescente pelo limite (do maior para o menor)
+	            // O código original já parece estar ordenado dessa forma (5, 4, 3, 2, 1, 0)
+
+	            // Se o percentual for maior ou igual ao limite superior (nota 5), retorna 5
+	            if (percentual >= classificacaoCurso[0].limite) {
+	                return 5.0;
+	            }
+
+	            // Se o percentual for menor que o limite inferior (nota 0), retorna 0
+	            const limiteInferior = classificacaoCurso[classificacaoCurso.length - 1].limite;
+	            if (percentual < limiteInferior) {
+	                return 0.0;
+	            }
+
+	            // Itera sobre os limites para encontrar o intervalo de interpolação
+	            for (let i = 0; i < classificacaoCurso.length - 1; i++) {
+	                const pontoSuperior = classificacaoCurso[i]; // Ex: { limite: 0.9, nota: 5 }
+	                const pontoInferior = classificacaoCurso[i + 1]; // Ex: { limite: 0.8, nota: 4 }
+
+	                // Verifica se o percentual está entre o limite superior e o limite inferior
+	                if (percentual < pontoSuperior.limite && percentual >= pontoInferior.limite) {
+	                    const x1 = pontoInferior.limite; // Limite inferior do intervalo (ex: 0.8)
+	                    const y1 = pontoInferior.nota;   // Nota inferior do intervalo (ex: 4)
+	                    const x2 = pontoSuperior.limite; // Limite superior do intervalo (ex: 0.9)
+	                    const y2 = pontoSuperior.nota;   // Nota superior do intervalo (ex: 5)
+	                    const x = percentual;            // Valor a ser interpolado (percentual)
+
+	                    // Fórmula da Interpolação Linear: y = y1 + (x - x1) * (y2 - y1) / (x2 - x1)
+	                    const notaInterpolada = y1 + (x - x1) * (y2 - y1) / (x2 - x1);
+
+	                    // Arredonda para duas casas decimais para melhor visualização
+	                    return parseFloat(notaInterpolada.toFixed(2));
+	                }
+	            }
+
+	            // Caso o percentual seja exatamente igual ao limite superior (que já foi tratado, mas como fallback)
+	            return classificacaoCurso[0].nota;
+	        }
+	    </script>
+	</body>
+	</html>
+
