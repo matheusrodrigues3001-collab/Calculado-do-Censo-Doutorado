@@ -802,7 +802,7 @@
             const especialistas = parseFloat(document.getElementById('especialistas').value) || 0;
             const mestres = parseFloat(document.getElementById('mestres').value) || 0;
             const doutores = parseFloat(document.getElementById('doutores').value) || 0;
-            const curso = document.getElementById('curso').value;
+            const curso = document.getElementById('curso').value.toUpperCase();
             const resultadoDiv = document.getElementById('resultado');
             const semaforoContainer = document.querySelector('.semaforo-container');
 
