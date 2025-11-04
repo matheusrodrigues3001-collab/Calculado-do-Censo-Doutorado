@@ -152,8 +152,9 @@
     <label>Quantidade de Mestres:</label>
     <input type="number" id="mestres" placeholder="Digite o número de Mestres">
     <label>Quantidade de Doutores:</label>
-    <input type="number" id="doutores" placeholder="Digite o número de Doutores">
-    <button onclick="calcular()">Calcular</button>
+	    <input type="number" id="doutores" placeholder="Digite o número de Doutores">
+	    <button onclick="calcular()">Calcular</button>
+	    <button onclick="limparDados()" style="background: #555; margin-top: 5px;">Limpar Dados</button>
     <div id="resultado"></div>
     <script>
         // Classificações atualizadas com os dados fornecidos pelo usuário
@@ -862,6 +863,21 @@
 	            const notaArredondada = Math.round(nota);
 	            const semaforoHtml = criarSemaforo(notaArredondada);
 	            resultadoDiv.insertAdjacentHTML('beforeend', semaforoHtml);
+	        }
+
+	        function limparDados() {
+	            document.getElementById('curso').value = '';
+	            document.getElementById('especialistas').value = '';
+	            document.getElementById('mestres').value = '';
+	            document.getElementById('doutores').value = '';
+	            document.getElementById('resultado').innerHTML = '';
+	            // Remove o semáforo se existir
+	            const semaforoContainer = document.querySelector('.semaforo-container');
+	            if (semaforoContainer) {
+	                semaforoContainer.remove();
+	            }
+	            // Recria o semáforo vazio
+	            document.getElementById('resultado').insertAdjacentHTML('beforeend', criarSemaforo(-1));
 	        }
 
 	        function criarSemaforo(notaArredondada) {
