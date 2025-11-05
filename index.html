@@ -93,11 +93,11 @@
             flex-shrink: 0; /* Evita que a bolinha diminua */
         }
         /* Cores das bolinhas */
-        .bolinha-verde-escura { background-color: #008000; } /* Nota 5 */
-        .bolinha-verde-clara { background-color: #90EE90; } /* Nota 4 */
-        .bolinha-amarela { background-color: #FFFF00; } /* Nota 3 */
-        .bolinha-laranja { background-color: #FFA500; } /* Nota 2 */
-        .bolinha-vermelha { background-color: #FF0000; } /* Notas 0 e 1 */
+        .bolinha-verde-escura { background-color: #008000; } /* Nota 5 - Nota Máxima Possível */
+        .bolinha-verde-clara { background-color: #90EE90; } /* Nota 4 - Nota Acima do Satisfatório */
+        .bolinha-amarela { background-color: #FFFF00; } /* Nota 3 - Satisfatório */
+        .bolinha-laranja { background-color: #FFA500; } /* Nota 2 - Insatisfatório */
+        .bolinha-vermelha { background-color: #FF0000; } /* Notas 0 e 1 - Crítico */
 
     </style>
 </head>
@@ -828,11 +828,11 @@
 			                    b = 0;
 			                } else {
 			                    // Interpolação de Amarelo (0.5) para Verde Escuro (1)
-			                    // Amarelo: (255, 255, 0) -> Verde Escuro: (0, 128, 0)
-			                    const fator = (normalizado - 0.5) * 2; // [0, 1]
-			                    r = Math.round(255 - (255 * fator)); // 255 -> 0
-			                    g = Math.round(255 - (127 * fator)); // 255 -> 128
-			                    b = 0;
+		                    // Amarelo: (255, 255, 0) -> Verde Escuro: (0, 128, 0)
+		                    const fator = (normalizado - 0.5) * 2; // [0, 1]
+		                    r = Math.round(255 - (255 * fator)); // 255 -> 0
+		                    g = Math.round(255 - (127 * fator)); // 255 -> 128
+		                    b = 0;
 			                }
 			
 			                // Converte para formato hexadecimal
@@ -875,9 +875,8 @@
 			            resultadoDiv.innerHTML = `
 			                <h4>Resultado para ${curso}</h4>
 			                <p>Proporção de Doutores: <strong>${(proporcaoDoutores * 100).toFixed(2)}%</strong></p>
-			                <p>Nota Final (Quebrada): <strong>${notaContinua.toFixed(2)}</strong></p>
-			                <p>Classificação (Discreta): <strong>${descricaoNota}</strong></p>
-			                <p>Cor Heatmap: <span style="color: ${corHeatmap}; font-weight: bold;">${corHeatmap}</span></p>
+			                <p>Nota Final: <strong>${notaContinua.toFixed(2)}</strong></p>
+			                <p>Classificação: <strong>${descricaoNota}</strong></p>
 			            `;
 
         }
