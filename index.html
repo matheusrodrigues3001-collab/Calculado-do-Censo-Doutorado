@@ -769,168 +769,93 @@
                 return;
             }
 
-	            // Lógica de Interpolação Linear (Heatmap)
-	            // 1. Encontrar os limites superior e inferior da proporção de doutores para o curso
-	            // O array classificacaoCurso está ordenado de forma decrescente pela nota.
-	            let limiteInferior = 0;
-	            let notaInferior = 0;
-	            let limiteSuperior = 1;
-	            let notaSuperior = 5;
-	
-	            // Encontrar os limites mais próximos
-	            for (let i = 0; i < classificacaoCurso.length; i++) {
-	                const item = classificacaoCurso[i];
-	                if (proporcaoDoutores >= item.limite) {
-	                    limiteInferior = item.limite;
-	                    notaInferior = item.nota;
-	                    if (i > 0) {
-	                        limiteSuperior = classificacaoCurso[i - 1].limite;
-	                        notaSuperior = classificacaoCurso[i - 1].nota;
-	                    } else {
-	                        // Se for a nota máxima (5), o limite superior é 1
-	                        limiteSuperior = 1;
-	                        notaSuperior = 5;
-	                    }
-	                    break;
-	                }
-	            }
-	
-	            // 2. Calcular a nota interpolada (contínua)
-	            let notaContinua;
-	            if (proporcaoDoutores >= limiteSuperior) {
-	                notaContinua = notaSuperior;
-	            } else if (proporcaoDoutores <= limiteInferior) {
-	                notaContinua = notaInferior;
-	            } else {
-	                // Interpolação linear: y = y1 + (x - x1) * (y2 - y1) / (x2 - x1)
-	                // Onde x é proporcaoDoutores, y é notaContinua
-	                // (x1, y1) é (limiteInferior, notaInferior)
-	                // (x2, y2) é (limiteSuperior, notaSuperior)
-	                notaContinua = notaInferior + (proporcaoDoutores - limiteInferior) * (notaSuperior - notaInferior) / (limiteSuperior - limiteInferior);
-	            }
-	
-	            // 3. Mapear a nota contínua para uma cor (Heatmap)
-	            // Cores: Vermelho (0) -> Amarelo (3) -> Verde Escuro (5)
-	            function interpolarCor(valor) {
-	                // Normaliza o valor para a faixa [0, 1]
-	                const normalizado = Math.min(1, Math.max(0, valor / 5));
-	
-	                let r, g, b;
-	
-	                if (normalizado < 0.5) {
-	                    // Interpolação de Vermelho (0) para Amarelo (0.5)
-	                    // Vermelho: (255, 0, 0) -> Amarelo: (255, 255, 0)
-	                    const fator = normalizado * 2; // [0, 1]
-	                    r = 255;
-	                    g = Math.round(255 * fator);
-	                    b = 0;
-	                } else {
-	                    // Interpolação de Amarelo (0.5) para Verde Escuro (1)
-	                    // Amarelo: (255, 255, 0) -> Verde Escuro: (0, 128, 0)
-	                    const fator = (normalizado - 0.5) * 2; // [0, 1]
-	                    r = Math.round(255 * (1 - fator));
-	                    g = Math.round(255 - (127 * fator)); // 255 -> 128
-	                    b = 0;
-	                }
-	
-	                // Converte para formato hexadecimal
-	                const toHex = (c) => c.toString(16).padStart(2, '0');
-	                return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-	            }
-	
-	            const corHeatmap = interpolarCor(notaContinua);
-	
-	            // 4. Atualizar o semáforo (usando a nota discreta para acender a luz, mas a cor interpolada para o resultado)
-	            // A nota discreta é a notaInferior (que é a nota mais alta que a proporção alcança)
-	            const notaDiscreta = notaInferior;
-	            atualizarSemaforo(notaDiscreta, corHeatmap);
-	
-	            // 5. Determinar a descrição da nota para o resultado (usando a nota discreta)
-	            let descricaoNota = '';
-	            switch (notaDiscreta) {
-	                case 5:
-	                    descricaoNota = 'Nota Máxima Possível';
-	                    break;
-	                case 4:
-	                    descricaoNota = 'Nota Acima do Satisfatório';
-	                    break;
-	                case 3:
-	                    descricaoNota = 'Satisfatório';
-	                    break;
-	                case 2:
-	                    descricaoNota = 'Insatisfatório';
-	                    break;
-	                case 1:
-	                case 0:
-	                    descricaoNota = 'Crítico';
-	                    break;
-	                default:
-	                    descricaoNota = 'Não Classificado';
-	            }
-	
-	            resultadoDiv.innerHTML = `
-	                <h4>Resultado para ${curso}</h4>
-	                <p>Proporção de Doutores: <strong>${(proporcaoDoutores * 100).toFixed(2)}%</strong></p>
-	                <p>Nota Final (Discreta): <strong>${notaDiscreta}</strong></p>
-	                <p>Classificação: <strong>${descricaoNota}</strong></p>
-	                <p>Cor Heatmap: <span style="color: ${corHeatmap}; font-weight: bold;">${corHeatmap}</span></p>
-	            `;
+	            // Lógica de Classificação Discreta (Proporcional)
+	            // 1. Encontrar a nota discreta correspondente à proporção de doutores
+	            // O array classificacaoCurso está ordenado de forma decrescente pelo limite.
+		            let notaFinal = 0;
+		            let corSemaforo = '';
+		
+		            // Encontrar a nota discreta correspondente
+		            for (const item of classificacaoCurso) {
+		                if (proporcaoDoutores >= item.limite) {
+		                    notaFinal = item.nota;
+		                    break;
+		                }
+		            }
+		
+		            // 2. Determinar a cor do semáforo e a descrição da nota
+		            let descricaoNota = '';
+		            switch (notaFinal) {
+		                case 5:
+		                    descricaoNota = 'Nota Máxima Possível';
+		                    corSemaforo = '#008000'; // Verde Escura
+		                    break;
+		                case 4:
+		                    descricaoNota = 'Nota Acima do Satisfatório';
+		                    corSemaforo = '#90EE90'; // Verde Clara
+		                    break;
+		                case 3:
+		                    descricaoNota = 'Satisfatório';
+		                    corSemaforo = '#FFFF00'; // Amarela
+		                    break;
+		                case 2:
+		                    descricaoNota = 'Insatisfatório';
+		                    corSemaforo = '#FFA500'; // Laranja
+		                    break;
+		                case 1:
+		                case 0:
+		                    descricaoNota = 'Crítico';
+		                    corSemaforo = '#FF0000'; // Vermelha
+		                    break;
+		                default:
+		                    descricaoNota = 'Não Classificado';
+		                    corSemaforo = '#444'; // Cinza
+		            }
+		
+		            // 3. Atualizar o semáforo
+		            atualizarSemaforo(notaFinal, corSemaforo);
+		
+			            // 4. Exibir o resultado
+			            resultadoDiv.innerHTML = `
+			                <h4>Resultado para ${curso}</h4>
+			                <p>Proporção de Doutores: <strong>${(proporcaoDoutores * 100).toFixed(2)}%</strong></p>
+			                <p>Nota Final: <strong>${notaFinal}</strong></p>
+			                <p>Classificação: <strong>${descricaoNota}</strong></p>
+			            `;
 
-            resultadoDiv.innerHTML = `
-                <h4>Resultado para ${curso}</h4>
-                <p>Proporção de Doutores: <strong>${(proporcaoDoutores * 100).toFixed(2)}%</strong></p>
-                <p>Nota Final: <strong>${notaFinal}</strong></p>
-                <p>Classificação: <strong>${descricaoNota}</strong></p>
-            `;
         }
 
-	        function atualizarSemaforo(nota, corHeatmap) {
-	            apagarSemaforo();
-	            const luzes = document.querySelectorAll('.luz');
-	            
-	            // O semáforo tem 5 luzes, mas as notas são 0-5.
-	            // Vamos mapear as notas para as luzes acesas.
-	            // Nota 5 -> 5ª luz (índice 4)
-	            // Nota 4 -> 4ª luz (índice 3)
-	            // Nota 3 -> 3ª luz (índice 2)
-	            // Nota 2 -> 2ª luz (índice 1)
-	            // Nota 1 e 0 -> 1ª luz (índice 0)
-	            
-	            let indiceLuz = -1;
-	            let corLuz = '';
-	
-	            switch (nota) {
-	                case 5:
-	                    indiceLuz = 4;
-	                    corLuz = '#008000'; // Verde Escura
-	                    break;
-	                case 4:
-	                    indiceLuz = 3;
-	                    corLuz = '#90EE90'; // Verde Clara
-	                    break;
-	                case 3:
-	                    indiceLuz = 2;
-	                    corLuz = '#FFFF00'; // Amarela
-	                    break;
-	                case 2:
-	                    indiceLuz = 1;
-	                    corLuz = '#FFA500'; // Laranja
-	                    break;
-	                case 1:
-	                case 0:
-	                    indiceLuz = 0;
-	                    corLuz = '#FF0000'; // Vermelha
-	                    break;
-	            }
-	
-	            if (indiceLuz !== -1 && luzes[indiceLuz]) {
-	                luzes[indiceLuz].classList.add('acesa');
-	                // Usar a cor do heatmap para a luz acesa, se fornecida
-	                const corFinal = corHeatmap || corLuz;
-	                luzes[indiceLuz].style.backgroundColor = corFinal;
-	                luzes[indiceLuz].style.color = corFinal; // Para o box-shadow
-	            }
-	        }
+		        function atualizarSemaforo(nota, corSemaforo) {
+		            apagarSemaforo();
+		            const luzes = document.querySelectorAll('.luz');
+		            
+		            // Mapeamento da nota para o índice da luz (0 a 4)
+		            // Nota 5 -> índice 4 (luz-5)
+		            // Nota 4 -> índice 3 (luz-4)
+		            // Nota 3 -> índice 2 (luz-3)
+		            // Nota 2 -> índice 1 (luz-2)
+		            // Nota 1/0 -> índice 0 (luz-1)
+		            
+		            let indiceLuz = -1;
+		
+		            if (nota === 5) {
+		                indiceLuz = 4;
+		            } else if (nota === 4) {
+		                indiceLuz = 3;
+		            } else if (nota === 3) {
+		                indiceLuz = 2;
+		            } else if (nota === 2) {
+		                indiceLuz = 1;
+		            } else if (nota === 1 || nota === 0) {
+		                indiceLuz = 0;
+		            }
+		
+		            if (indiceLuz !== -1 && luzes[indiceLuz]) {
+		                luzes[indiceLuz].classList.add('acesa');
+		                luzes[indiceLuz].style.backgroundColor = corSemaforo;
+		                luzes[indiceLuz].style.color = corSemaforo; // Para o box-shadow
+		            }
+		        }
 
         function apagarSemaforo() {
             const luzes = document.querySelectorAll('.luz');
