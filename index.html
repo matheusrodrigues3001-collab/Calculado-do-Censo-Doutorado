@@ -185,30 +185,7 @@
     <button onclick="calcular()">Calcular</button>
     <button onclick="limparDados()" style="background: #555; margin-top: 5px;">Limpar Dados</button>
     
-    <!-- Estrutura da Legenda -->
-    <div class="legenda-container">
-        <h4>Legenda de Classificação</h4>
-        <div class="legenda-item">
-            <div class="bolinha bolinha-verde-escura"></div>
-            <span>Nota Máxima Possível</span>
-        </div>
-        <div class="legenda-item">
-            <div class="bolinha bolinha-verde-clara"></div>
-            <span>Nota Acima do Satisfatório</span>
-        </div>
-        <div class="legenda-item">
-            <div class="bolinha bolinha-amarela"></div>
-            <span>Satisfatório</span>
-        </div>
-        <div class="legenda-item">
-            <div class="bolinha bolinha-laranja"></div>
-            <span>Insatisfatório</span>
-        </div>
-        <div class="legenda-item">
-            <div class="bolinha bolinha-vermelha"></div>
-            <span>Crítico</span>
-        </div>
-    </div>
+
     
     <div id="resultado"></div>
     <script>
@@ -871,13 +848,16 @@
 			            // 5. Atualizar o semáforo (usando a nota discreta para acender a luz, mas a cor interpolada para o resultado)
 			            atualizarSemaforo(notaDiscreta, corHeatmap);
 			
-			            // 6. Exibir o resultado, usando a nota contínua (quebrada)
-			            resultadoDiv.innerHTML = `
-			                <h4>Resultado para ${curso}</h4>
-			                <p>Proporção de Doutores: <strong>${(proporcaoDoutores * 100).toFixed(2)}%</strong></p>
-			                <p>Nota Final: <strong>${notaContinua.toFixed(2)}</strong></p>
-			                <p>Classificação: <strong>${descricaoNota}</strong></p>
-			            `;
+				            // 6. Exibir o resultado, usando a nota contínua (quebrada)
+				            resultadoDiv.innerHTML = `
+				                <h4>Resultado para ${curso}</h4>
+				                <p>Proporção de Doutores: <strong>${(proporcaoDoutores * 100).toFixed(2)}%</strong></p>
+				                <p>Nota Final: <strong>${notaContinua.toFixed(2)}</strong></p>
+				                <p>Classificação: <strong>${descricaoNota}</strong></p>
+				            `;
+				            
+				            // Adiciona a legenda abaixo do resultado
+				            resultadoDiv.insertAdjacentHTML('beforeend', criarLegendaSemaforo());
 
         }
 
@@ -923,14 +903,29 @@
             });
         }
 
-        function limparDados() {
-            document.getElementById('curso').value = "";
-            document.getElementById('especialistas').value = "";
-            document.getElementById('mestres').value = "";
-            document.getElementById('doutores').value = "";
-            document.getElementById('resultado').innerHTML = "";
-            apagarSemaforo();
-        }
+	        function criarLegendaSemaforo() {
+				return `
+					<div style="margin-top: 20px; padding: 15px; background: #e6f1ff; border-radius: 8px;">
+						<h3 style="text-align: center; color: #CE0058;">Legenda do Semáforo</h3>
+						<ul style="list-style: none; padding: 0; text-align: left;">
+							<li style="margin-bottom: 5px;"><span style="display: inline-block; width: 15px; height: 15px; border-radius: 50%; background-color: #FF0000; margin-right: 10px;"></span>Vermelho - Crítico</li>
+							<li style="margin-bottom: 5px;"><span style="display: inline-block; width: 15px; height: 15px; border-radius: 50%; background-color: #FFC000; margin-right: 10px;"></span>Amarelo - Insatisfatório</li>
+							<li style="margin-bottom: 5px;"><span style="display: inline-block; width: 15px; height: 15px; border-radius: 50%; background-color: #92D050; margin-right: 10px;"></span>Verde Limão - Satisfatório</li>
+							<li style="margin-bottom: 5px;"><span style="display: inline-block; width: 15px; height: 15px; border-radius: 50%; background-color: #3C7D22; margin-right: 10px;"></span>Verde Oliva - Acima do Satisfatório</li>
+							<li style="margin-bottom: 5px;"><span style="display: inline-block; width: 15px; height: 15px; border-radius: 50%; background-color: #00B0F0; margin-right: 10px;"></span>Azul - Nota máxima</li>
+						</ul>
+					</div>
+				`;
+			}
+			
+	        function limparDados() {
+	            document.getElementById('curso').value = "";
+	            document.getElementById('especialistas').value = "";
+	            document.getElementById('mestres').value = "";
+	            document.getElementById('doutores').value = "";
+	            document.getElementById('resultado').innerHTML = "";
+	            apagarSemaforo();
+	        }
     </script>
     
     <!-- Estrutura do Semáforo -->
